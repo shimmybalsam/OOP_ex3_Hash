@@ -1,0 +1,140 @@
+shimmy10
+
+
+=============================
+=      Submitted files     =
+=============================
+1. ClosedHashSet.java
+2. OpenHashSet.java
+3. SimpleHashSet.java
+4. WrappedLinkedList.java
+5. DeletedItem.java
+6. CollectionFacadeSet.java
+7. SimpleSetPerformanceAnalyzer.java
+8. RESULTS
+9. README
+
+=============================
+=      File description     =
+=============================
+1. WrapperLinkedList.java - represent a Wrapper of a LinkedLList so that an array of such can be created and
+    used for an OpenHashSet.
+
+2.  DeletedItem.java - represents an empty slot in a ClosedHashSet, after the element which previously was in that
+    slot, was deleted.
+
+=============================
+=  Implementation details   =
+=============================
+1. I decided to implement the OpenHashTable by creating a WrapperLinkedList object, and then building an Array of
+said object type. This way I managed to have a LinkedList in each slot of my OpenHashSet Array, without doing
+so, straightforwardly. This also simplifies the usage of the elementary actions which I needed and are already
+existent in java's LinkedList.
+
+2. I decided to implement the deletion mechanism in ClosedHashSet by creating a DeletedItem object which returns a
+specific "DeletedItem" String. This way when an element is deleted from a ClosedHashSet, I replace it with a
+the DeletedItem String and when checking the slots of the ClosedHashSet, I compare using the '==' function to
+see if what is in the slot is the same object, having the same memory address, as a DeletedItem.
+
+=============================
+=    Answers to questions   =
+=============================
+RESULTS:
+1. #These values correspond to the time it takes (in ms) to insert data1 to all data structures
+   OpenHashSet_AddData1 = 11261
+   ClosedHashSet_AddData1 = 44056
+   TreeSet_AddData1 = 73
+   LinkedList_AddData1 = 47386
+   *HashSet_AddData1 = 60*
+
+2. #These values correspond to the time it takes (in ms) to insert data2 to all data structures
+   OpenHashSet_AddData2 = 25
+   ClosedHashSet_AddData2 = 16124
+   TreeSet_AddData2 = 88
+   LinkedList_AddData2 = 28562
+   *HashSet_AddData2 = 19*
+
+3. #These values corresponds to and compares between the time it takes (in ms)
+    to insert data1 and data2 to all data structures:
+      OpenHashSet AddData1/AddData2 = 11261/25
+      ClosedHashSet AddData1/AddData2 = 44056/16124
+      TreeSet AddData1/AddData2 = 73/88
+      LinkedList AddData1/AddData2 = 47386/28562
+      HashSet AddData1/AddData2 = 60/19
+
+4. #These values correspond to the time it takes (in ns) to check if "hi" is contained in
+   the data structures initialized with data1:
+   OpenHashSet_Contains_hi1 = 29
+   ClosedHashSet_Contains_hi1 = 132382
+   TreeSet_Contains_hi1 = 113
+   LinkedList_Contains_hi1 = 857204
+   *HashSet_Contains_hi1 = 17*
+
+5. #These values correspond to the time it takes (in ns) to check if "-13170890158" is contained in
+   the data structures initialized with data1
+   OpenHashSet_Contains_negative = 8970
+   ClosedHashSet_Contains_negative = 176768
+   TreeSet_Contains_negative = 157
+   LinkedList_Contains_negative = 957480
+   *HashSet_Contains_negative = 48*
+
+6. #These values correspond to and compares between the time it takes (in ns) to check if "hi" and
+    "-13170890158" are contained in the data structures initialized with data1
+   OpenHashSet contains_hi1/Contains_negative = 29/8970
+   ClosedHashSet contains_hi1/Contains_negative = 132382/176768
+   TreeSet contains_hi1/Contains_negative = 113/157
+   LinkedList contains_hi1/Contains_negative = 857204/957480
+   HashSet contains_hi1/Contains_negative = 17/48
+
+7. #These values correspond to the time it takes (in ns) to check if "23" is contained in
+   the data structures initialized with data2
+   *OpenHashSet_Contains_23 = 24*
+   ClosedHashSet_Contains_23 = 31
+   TreeSet_Contains_23 = 48
+   LinkedList_Contains_23 = 132
+   HashSet_Contains_23 = 52
+
+8. #These values correspond to the time it takes (in ns) to check if "hi" is contained in
+   the data structures initialized with data2
+   *OpenHashSet_Contains_hi2 = 16*
+   ClosedHashSet_Contains_hi2 = 778729
+   TreeSet_Contains_hi2 = 74
+   LinkedList_Contains_hi2 = 533368
+   HashSet_Contains_hi2 = 27
+
+9. #These values correspond to and compares between the time it takes (in ns) to check if "23" and
+    "hi" are contained in the data structures initialized with data2
+    OpenHashSet Contains_23/Contains_hi2 = 24/16
+    ClosedHashSet Contains_23/Contains_hi2 = 31/778729
+    TreeSet Contains_23/Contains_hi2 = 48/74
+    LinkedList Contains_23/Contains_hi2 = 132/533368
+    HashSet Contains_23/Contains_hi2 = 52/27
+
+10. Seeing that all the elements in data1 have the same hashCode:
+    in OpenHashSet: this creates one long LinkedList which causes a long time to check contains and as a
+    result also to add.
+    in ClosedHashSet: this causes, besides the first element, that all elements won't find there place at their
+    first try, and as further long the list goes, the longer it will take to find a free slot. As so the adding
+    and the checking of contains will almost always have to pass by many 'i's' until the actual slot is found.
+
+11. Based on RESULTS:
+ - when all elements have the same hashCode (as in data1) it would be best to use Java's
+    HashSet for both adding and contains. Where TreeSet is almost as good, OpenHashSet is slow but not horrible,
+    and the weakest in this instance are ClosedHashSet and Java's LinkedList, respectively.
+ - when elements have different hashCode (as in data2), for uploading the data Java's treeSet is once again fastest,
+    but for checking contains OpenHashSet is fastest. once again TreeSet is not far behind, and LinkedList and
+    ClosedHashSet are weakest. In general, besides OpenHashSet, it is much faster for contains to work on an element
+    which exists in the data ("23") as upposed to one that does not ("hi").
+
+12. My two implementations, OpenHashSet and ClosedHashSet compare as the following: OpenHashSet is always much faster.
+
+13. My two implementations compare to Java's HashSet as such: they are both much slower than HashSet at adding elements,
+but when it comes to contains - as said above, when dealing with simialr hashCode (data1) Java's HashSet is once again
+much faster, but when Dealing with a range of hashCodes (data2) ClosedHashSet is still much slower but OpenHashSet
+kicks ass. ;)
+
+14. OpenHashSet's contains awesomeness surprised me compared to Java's HashSet and TreeSet, where as Java's LinkedList
+surprised me as being so slow.
+
+15. I did not try different instances of clamping, my way seemed to work fine and at pretty good timing, as so I kept
+it as is.
